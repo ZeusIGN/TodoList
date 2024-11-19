@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="TodoList.gui.ListItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Width="150" Height="60">
+    
+    <UserControl.Resources>
+        <Color x:Key="PrimaryColor">#371452</Color>
+        <Color x:Key="SecondaryColor">#140d2a</Color>
+        <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}" />
+        <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource SecondaryColor}" />
+    </UserControl.Resources>
+    
+    <UserControl.DataContext>
+        <Binding RelativeSource="{RelativeSource Self}" />
+    </UserControl.DataContext>
+    
+    <Grid MouseLeftButtonDown="HandleMouseButton">
+        <Rectangle Margin="-2,-2,-2,-2" Fill="{StaticResource PrimaryBrush }" />
+        <Rectangle Fill="{StaticResource SecondaryBrush}" />
+        <TextBox Text="{Binding ViewModel.ListName}" MaxLength="20" FontSize="15" Background="Transparent"  Foreground="DarkGray" BorderThickness="0" Margin="2,0,0,2" VerticalAlignment="Top" HorizontalAlignment="Left" />
+        <TextBox Text="{Binding ViewModel.ShortDescription}" MaxLength="23" Background="Transparent"  Foreground="DarkGray" BorderThickness="0" Margin="2,25,0,2" VerticalAlignment="Top" HorizontalAlignment="Left" />
+    </Grid>
+</UserControl>

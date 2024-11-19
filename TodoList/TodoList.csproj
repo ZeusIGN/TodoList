@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+        <RootNamespace>TodoList</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Update="gui\ListItemViewModel.xaml.cs">
+        <DependentUpon>ListItem.xaml</DependentUpon>
+      </Compile>
+      <Compile Update="gui\ListGroupingViewModel.xaml.cs">
+        <DependentUpon>ListGrouping.xaml</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+</Project>
