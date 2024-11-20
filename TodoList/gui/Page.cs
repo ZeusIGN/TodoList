@@ -11,6 +11,8 @@ public class Page : INotifyPropertyChanged {
     private ObservableCollection<ListGrouping> _groupings = new();
     public ObservableCollection<ListGrouping> Groupings => _groupings;
     public MainWindow MainWindow { get; }
+    public string Name { get; set; }
+    public Guid Id { get; set; }
 
     public bool IsDragging;
     public int DraggingIndex = -1;
@@ -21,7 +23,7 @@ public class Page : INotifyPropertyChanged {
     public ListItem? CurrentItem {
         get => _currentItem;
         set {
-            if (_currentItem != null) 
+            if (_currentItem != null)
                 UpdateList(_currentItem);
             _currentItem = value;
             MainWindow.PropertySelector.Visibility = value == null ? Visibility.Hidden : Visibility.Visible;
@@ -29,13 +31,21 @@ public class Page : INotifyPropertyChanged {
         }
     }
 
-    public Page(MainWindow mainWindow) {
+    public Page(MainWindow mainWindow, Guid? id = null, string name = "New Page") {
+        Id = id ?? Guid.NewGuid();
+        Name = name;
         MainWindow = mainWindow;
         var addNew = new ListGrouping(this, "Add New Group") {
             Margin = new Thickness(10, 10, 0, 0),
             TextBox = { Focusable = false }
         };
         _groupings.Add(addNew);
+
+        Page[] pages = mainWindow.Pages ?? Array.Empty<Page>();
+        Page[] newPages = new Page[pages.Length + 1];
+        pages.CopyTo(newPages, 0);
+        newPages[^1] = this;
+        mainWindow.Pages = newPages;
     }
 
     private void MoveGroup(int index, int to) {
@@ -123,7 +133,6 @@ public class Page : INotifyPropertyChanged {
     }
 
     public void SavePageToFile() {
-        
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

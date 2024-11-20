@@ -8,6 +8,19 @@
         <Color x:Key="SecondaryColor">#140d2a</Color>
         <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}" />
         <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource SecondaryColor}" />
+        <Style x:Key="NoHoverButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
 
     <UserControl.DataContext>
@@ -17,7 +30,7 @@
     <Grid MouseLeftButtonDown="HandleMouseButton">
         <Rectangle Margin="-2,-2,-2,-2" Fill="{StaticResource PrimaryBrush }" />
         <Rectangle Fill="{StaticResource SecondaryBrush}" />
-        <Rectangle x:Name="Progress" Height="5" VerticalAlignment="Bottom" />
+        <Button x:Name="Progress" Height="5" VerticalAlignment="Bottom" Margin="2,0,0,2" Click="HandleProgress" FocusVisualStyle="{x:Null}" Style="{StaticResource NoHoverButtonStyle}"></Button>
         <TextBox x:Name="ListName" Text="{Binding ViewModel.ListName}" MaxLength="20" FontSize="15"
                  Background="Transparent" Foreground="DarkGray" BorderThickness="0" Margin="2,0,0,2"
                  VerticalAlignment="Top" HorizontalAlignment="Left" />
@@ -25,6 +38,6 @@
                  Foreground="DarkGray" BorderThickness="0" Margin="2,25,0,2" VerticalAlignment="Top"
                  HorizontalAlignment="Left" />
         <Button Content="-" Width="25" Height="25" FontSize="25" Click="ButtonRemove" BorderThickness="0"
-                Background="Transparent" Foreground="DimGray" HorizontalAlignment="Right" VerticalAlignment="Top" />
+                Foreground="DimGray" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource NoHoverButtonStyle}" />
     </Grid>
 </UserControl>

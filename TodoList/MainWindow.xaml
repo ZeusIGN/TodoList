@@ -29,6 +29,9 @@
 
         <Grid Background="{StaticResource PrimaryBrush}" Grid.Row="0" MouseLeftButtonDown="Header_MouseLeftButtonDown">
             <TextBlock Text="Todo List" VerticalAlignment="Center" Margin="10,0,0,5" Foreground="DimGray" />
+            <TextBox HorizontalAlignment="Left" LostFocus="ChangeName" x:Name="PageName" Background="Transparent"
+                     BorderThickness="0" Text="Page" FontSize="20"
+                     VerticalAlignment="Center" Margin="65,0,0,5" Foreground="LightGray" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="-" Width="25" FontSize="15" Click="MinimizeClick" BorderThickness="0"
                         Background="Transparent" Foreground="DimGray" />
@@ -41,8 +44,37 @@
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
             <Grid Background="{StaticResource SecondaryBrush}">
-                <Grid Width="150" HorizontalAlignment="Left" />
-                <ItemsControl HorizontalAlignment="Left" ItemsSource="{Binding CurrentPage.Groupings}"
+                <Grid Width="150" HorizontalAlignment="Left">
+                    <Button x:Name="CurrentPageButton"
+                            Content="{Binding CurrentPage.Name, FallbackValue=None}"
+                            Width="150" Height="30"
+                            Background="{StaticResource ItemBrush}" Foreground="DimGray"
+                            VerticalAlignment="Top"
+                            Margin="0,5,0,0"
+                            Click="PageChangeList" />
+                    <Button x:Name="NewPageButton" Visibility="Hidden" VerticalAlignment="Top" Margin="0,40,0,0"
+                            Content="Create New Page"
+                            Width="150" Height="30"
+                            Background="{StaticResource ItemBrush}" Foreground="DimGray"
+                            Tag="{Binding Id}"
+                            Click="AddPage" />
+                    <ItemsControl x:Name="PagesList" Visibility="Hidden" ItemsSource="{Binding Pages}"
+                                  Margin="0,80,0,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Margin="0,5,0,0" 
+                                        Content="{Binding Name}"
+                                        Width="150" Height="30"
+                                        Background="{StaticResource ItemBrush}" Foreground="DimGray"
+                                        Tag="{Binding Id}"
+                                        Click="SelectPage"
+                                        MouseRightButtonDown="PageSelectRightClick" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+                <ItemsControl x:Name="PageControl" HorizontalAlignment="Left"
+                              ItemsSource="{Binding CurrentPage.Groupings}"
                               Margin="150,0,0,0"
                               MouseMove="MouseMove">
                     <ItemsControl.ItemsPanel>

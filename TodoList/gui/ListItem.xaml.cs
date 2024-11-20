@@ -19,6 +19,7 @@ namespace TodoList.gui {
         public void Reload() {
             ShortDesc.Text = ViewModel.ShortDescription;
             ListName.Text = ViewModel.ListName;
+            Progress.Background = ViewModel.ProgressBrushes[ViewModel.Progress];
         }
 
         private void Remove() {
@@ -34,6 +35,11 @@ namespace TodoList.gui {
             Page.DraggingItemIndex[0] = Page.Groupings.IndexOf(Group);
             Page.DraggingItemIndex[1] = Group.Items.Children.IndexOf(this);
             Page.IsDragging = true;
+        }
+        
+        private void HandleProgress(object sender, RoutedEventArgs e) {
+            ViewModel.Progress = (ViewModel.Progress + 1) % ViewModel.ProgressBrushes.Length;
+            Reload();
         }
 
         private void ButtonRemove(object sender, RoutedEventArgs e) {

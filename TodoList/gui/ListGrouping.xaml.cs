@@ -18,26 +18,27 @@ namespace TodoList.gui {
 
         private void AddItem(ListItem item) {
             if (item.ViewModel.MdId == null) {
-                var id = Page.MainWindow.PageSaver.CreateListMd();
+                var id = Page.MainWindow.PageHandler.CreateListMd();
                 item.ViewModel.MdId = id;
             }
-
-            string text = File.ReadAllText($@"{PageSaver.directory}\ItemMds\{item.ViewModel.MdId}.md");
+            
+            string text = File.ReadAllText($@"{PageHandler.directory}\ItemMds\{item.ViewModel.MdId}.md");
             item.ViewModel.Markdown = text;
+            item.Reload();
             Items.Children.Add(item);
             item.Margin = new Thickness(0, 5, 0, 5);
         }
 
         public void RemoveItem(ListItem item) {
             var id = item.ViewModel.MdId;
-            Page.MainWindow.PageSaver.RemoveListMd(id);
+            Page.MainWindow.PageHandler.RemoveListMd(id);
             Items.Children.Remove(item);
         }
 
         public void CreateItem(string name = "New Item", string shortDescription = "Short Description",
-            Guid? id = null) {
+            Guid? id = null, int progress = 0) {
             AddItem(new ListItem(this, name, shortDescription) {
-                ViewModel = { MdId = id }
+                ViewModel = { MdId = id, Progress = progress }
             });
         }
 
