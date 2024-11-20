@@ -22,3 +22,7 @@ C:\Users\ZeusC\RiderProjects\WpfApp1\TodoList\obj\Debug\net6.0-windows\gui\ListI
 C:\Users\ZeusC\RiderProjects\WpfApp1\TodoList\obj\Debug\net6.0-windows\gui\ListItem.g.cs
 C:\Users\ZeusC\RiderProjects\WpfApp1\TodoList\obj\Debug\net6.0-windows\gui\ListGrouping.baml
 C:\Users\ZeusC\RiderProjects\WpfApp1\TodoList\obj\Debug\net6.0-windows\gui\ListGrouping.g.cs
+C:\Users\ZeusC\RiderProjects\WpfApp1\TodoList\bin\Debug\net6.0-windows\ICSharpCode.AvalonEdit.dll
+C:\Users\ZeusC\RiderProjects\WpfApp1\TodoList\bin\Debug\net6.0-windows\MdXaml.dll
+C:\Users\ZeusC\RiderProjects\WpfApp1\TodoList\bin\Debug\net6.0-windows\MdXaml.Plugins.dll
+C:\Users\ZeusC\RiderProjects\WpfApp1\TodoList\obj\Debug\net6.0-windows\TodoList.csproj.CopyComplete

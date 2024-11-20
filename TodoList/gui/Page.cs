@@ -10,12 +10,27 @@ namespace TodoList.gui;
 public class Page : INotifyPropertyChanged {
     private ObservableCollection<ListGrouping> _groupings = new();
     public ObservableCollection<ListGrouping> Groupings => _groupings;
+    public MainWindow MainWindow { get; }
 
     public bool IsDragging;
     public int DraggingIndex = -1;
     public int[] DraggingItemIndex = { -1, -1 };
 
-    public Page() {
+    private ListItem? _currentItem;
+
+    public ListItem? CurrentItem {
+        get => _currentItem;
+        set {
+            if (_currentItem != null) 
+                UpdateList(_currentItem);
+            _currentItem = value;
+            MainWindow.PropertySelector.Visibility = value == null ? Visibility.Hidden : Visibility.Visible;
+            UpdateCard();
+        }
+    }
+
+    public Page(MainWindow mainWindow) {
+        MainWindow = mainWindow;
         var addNew = new ListGrouping(this, "Add New Group") {
             Margin = new Thickness(10, 10, 0, 0),
             TextBox = { Focusable = false }
@@ -23,12 +38,12 @@ public class Page : INotifyPropertyChanged {
         _groupings.Add(addNew);
     }
 
-    public void MoveGroup(int index, int to) {
+    private void MoveGroup(int index, int to) {
         if (to.Equals(_groupings.Count - 1) || index.Equals(_groupings.Count - 1) || index == to || index == -1 ||
             to == -1 || _groupings.Count <= 0) return;
         _groupings.Move(index, to);
     }
-    
+
     public ListGrouping CreateGroup(string groupName = "New Group") {
         var listGrouping = new ListGrouping(this, groupName) {
             Margin = new Thickness(10, 10, 0, 0)
@@ -52,11 +67,13 @@ public class Page : INotifyPropertyChanged {
     }
 
     private void HandleItemDragging(int closestGroupIndex, int closestItemIndex) {
-        if (DraggingItemIndex[0] == -1 || DraggingItemIndex[1] == -1 || closestGroupIndex == _groupings.Count - 1) return;
+        if (DraggingItemIndex[0] == -1 || DraggingItemIndex[1] == -1 ||
+            closestGroupIndex == _groupings.Count - 1) return;
         var group = _groupings[DraggingItemIndex[0]];
         var item = (ListItem)group.Items.Children[DraggingItemIndex[1]];
         item.Group = group;
         group.Items.Children.RemoveAt(DraggingItemIndex[1]);
+        if (_groupings.Count < closestGroupIndex) return;
         _groupings[closestGroupIndex].Items.Children.Insert(closestItemIndex, item);
         DraggingItemIndex[0] = closestGroupIndex;
         DraggingItemIndex[1] = closestItemIndex;
@@ -67,7 +84,7 @@ public class Page : INotifyPropertyChanged {
         MoveGroup(DraggingIndex, closestIndex);
         DraggingIndex = closestIndex;
     }
-    
+
     public int GetClosestGroupIndex(Point point) {
         var returnIndex = -1;
         var closestDistance = double.MaxValue;
@@ -85,6 +102,28 @@ public class Page : INotifyPropertyChanged {
         }
 
         return returnIndex;
+    }
+
+    private void UpdateCard() {
+        MainWindow.PropertySelector.DataContext = CurrentItem?.ViewModel;
+        var listName = MainWindow.ListName;
+        var shortDesc = MainWindow.ShortDescription;
+        var markdown = MainWindow.MarkdownEditor;
+        listName.Text = CurrentItem?.ViewModel.ListName;
+        shortDesc.Text = CurrentItem?.ViewModel.ShortDescription;
+        markdown.Markdown = CurrentItem?.ViewModel.Markdown;
+    }
+
+    private void UpdateList(ListItem item) {
+        var listName = MainWindow.ListName;
+        var shortDesc = MainWindow.ShortDescription;
+        item.ViewModel.ListName = listName.Text;
+        item.ViewModel.ShortDescription = shortDesc.Text;
+        item.Reload();
+    }
+
+    public void SavePageToFile() {
+        
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

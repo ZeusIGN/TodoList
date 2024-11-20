@@ -1,0 +1,14 @@
+[
+  {
+    "Name": "New Group",
+    "Index": 0,
+    "Items": [
+      {
+        "Name": "New Item",
+        "ShortDescription": "Short Description",
+        "ID": "a112c010-fc98-40a8-806a-cfc0b8cb1610",
+        "Index": 0
+      }
+    ]
+  }
+]

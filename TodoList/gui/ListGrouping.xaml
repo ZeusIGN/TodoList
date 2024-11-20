@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="TodoList.gui.ListGrouping"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Width="170">
+             Width="200">
 
     <UserControl.Resources>
         <Color x:Key="PrimaryColor">#371452</Color>
@@ -19,11 +19,12 @@
             <RowDefinition Height="30" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid MouseLeftButtonDown="HandleMouseButton">
+        <Grid MouseLeftButtonDown="MouseButtonLeft" MouseRightButtonDown="MouseButtonRight">
             <Rectangle Margin="-2,-2,-2,-2" Fill="{StaticResource PrimaryBrush }" />
             <Rectangle Fill="{StaticResource SecondaryBrush}" />
             <TextBox x:Name="TextBox" Text="{Binding ViewModel.GroupName}" FontSize="18" Background="Transparent"
                      Foreground="DarkGray"
+                     MaxLength="15"
                      BorderThickness="0" Margin="2,0,0,2" VerticalAlignment="Center" HorizontalAlignment="Left" />
             <Button Content="+" Width="30" FontSize="25" Click="HandleButton" BorderThickness="0"
                     Background="Transparent" Foreground="DimGray" HorizontalAlignment="Right" VerticalAlignment="Top" />

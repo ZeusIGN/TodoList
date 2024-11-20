@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,15 +16,31 @@ namespace TodoList.gui {
             InitializeComponent();
         }
 
-        public void AddItem(ListItem item) {
+        private void AddItem(ListItem item) {
+            if (item.ViewModel.MdId == null) {
+                var id = Page.MainWindow.PageSaver.CreateListMd();
+                item.ViewModel.MdId = id;
+            }
+
+            string text = File.ReadAllText($@"{PageSaver.directory}\ItemMds\{item.ViewModel.MdId}.md");
+            item.ViewModel.Markdown = text;
             Items.Children.Add(item);
             item.Margin = new Thickness(0, 5, 0, 5);
         }
 
-        public void CreateItem(string name = "New Item", string shortDescription = "Short Description") {
-            AddItem(new ListItem(this, name, shortDescription));
+        public void RemoveItem(ListItem item) {
+            var id = item.ViewModel.MdId;
+            Page.MainWindow.PageSaver.RemoveListMd(id);
+            Items.Children.Remove(item);
         }
-        
+
+        public void CreateItem(string name = "New Item", string shortDescription = "Short Description",
+            Guid? id = null) {
+            AddItem(new ListItem(this, name, shortDescription) {
+                ViewModel = { MdId = id }
+            });
+        }
+
         public int GetClosestItemIndex(Point point) {
             var returnIndex = -1;
             var closestDistance = double.MaxValue;
@@ -52,9 +69,15 @@ namespace TodoList.gui {
             CreateItem();
         }
 
-        private void HandleMouseButton(object sender, MouseButtonEventArgs e) {
+        private void MouseButtonLeft(object sender, MouseButtonEventArgs e) {
             Page.DraggingIndex = Page.Groupings.IndexOf(this);
             Page.IsDragging = true;
+        }
+
+        private void MouseButtonRight(object sender, MouseButtonEventArgs e) {
+            if (!Page.Groupings[^1].Equals(this) && e.ClickCount == 2) {
+                Page.Groupings.Remove(this);
+            }
         }
     }
 }

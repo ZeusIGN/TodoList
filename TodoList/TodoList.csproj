@@ -17,4 +17,8 @@
       </Compile>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MdXaml" Version="1.27.0" />
+    </ItemGroup>
+
 </Project>

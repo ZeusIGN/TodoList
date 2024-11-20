@@ -1,15 +1,17 @@
 ﻿using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
-using TodoList.gui;
+using Page = TodoList.gui.Page;
 
 namespace TodoList {
     public partial class MainWindow : Window {
         public Page CurrentPage { get; set; }
+        public PageSaver PageSaver { get; }
 
         public MainWindow() {
-            var page = new Page();
-            CurrentPage = page;
+            PageSaver = new PageSaver(this);
+            CurrentPage = PageSaver.LoadFromFile("save");
             DataContext = CurrentPage;
             InitializeComponent();
         }
@@ -32,16 +34,33 @@ namespace TodoList {
         }
 
         private void CloseClick(object sender, RoutedEventArgs e) {
+            PageSaver.SavePageToFile(CurrentPage);
             Close();
         }
 
-        private new void MouseMove(object sender, MouseEventArgs e) {
-            if (CurrentPage.Groupings.Count > 1) {
-                var group = CurrentPage.Groupings[0];
-                var index = group.GetClosestItemIndex(e.GetPosition(this));
-                Debug.WriteLine(index);
+        private void CloseItem(object sender, RoutedEventArgs e) {
+            if (Editor.Visibility == Visibility.Visible) {
+                EditItem(sender, e);
             }
+            CurrentPage.CurrentItem = null;
+        }
 
+        private void EditItem(object sender, RoutedEventArgs e) {
+            var item = CurrentPage.CurrentItem;
+            if (item == null) return;
+            var visible = Editor.Visibility == Visibility.Visible;
+            Editor.Visibility = visible ? Visibility.Hidden : Visibility.Visible;
+            if (visible) {
+                PageSaver.UpdateMd(item, Editor.Text);
+            }
+            else {
+                Editor.Text = item.ViewModel.Markdown ?? "";
+            }
+            MarkdownEditor.Visibility = !visible ? Visibility.Hidden : Visibility.Visible;
+            MarkdownEditor.Markdown = item.ViewModel.Markdown ?? "";
+        }
+
+        private new void MouseMove(object sender, MouseEventArgs e) {
             if (!CurrentPage.IsDragging) return;
             CurrentPage.MouseMove(
                 CurrentPage.GetClosestGroupIndex(e.GetPosition(this)),
@@ -51,6 +70,10 @@ namespace TodoList {
         }
 
         private void MouseButtonUp(object sender, MouseEventArgs e) {
+            if (Keyboard.FocusedElement is TextBox focused) {
+                focused.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            }
+
             CurrentPage.IsDragging = false;
             CurrentPage.DraggingIndex = -1;
             CurrentPage.DraggingItemIndex[0] = -1;
