@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "eJiyY0MXAYs=",
+  "dgSpecHash": "42do5unZk6s=",
   "success": true,
   "projectFilePath": "C:\\Users\\ZeusC\\RiderProjects\\WpfApp1\\TodoList\\TodoList.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\ZeusC\\.nuget\\packages\\avalonedit\\6.3.0.90\\avalonedit.6.3.0.90.nupkg.sha512",
+    "C:\\Users\\ZeusC\\.nuget\\packages\\mdxaml\\1.27.0\\mdxaml.1.27.0.nupkg.sha512",
+    "C:\\Users\\ZeusC\\.nuget\\packages\\mdxaml.plugins\\1.27.0\\mdxaml.plugins.1.27.0.nupkg.sha512"
+  ],
   "logs": []
 }

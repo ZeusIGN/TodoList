@@ -10,7 +10,7 @@ namespace TodoList;
 public class PageHandler {
     private MainWindow MainWindow { get; }
 
-    public static string directory = @"..\..\..\..\Data\";
+    public static string directory = @"Data\";
 
     public PageHandler(MainWindow window) {
         MainWindow = window;

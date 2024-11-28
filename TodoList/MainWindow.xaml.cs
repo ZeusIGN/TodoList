@@ -18,7 +18,7 @@ namespace TodoList {
             InitializeComponent();
             PageName.Text = CurrentPage.Name;
         }
-
+        
         private void PageChangeList(object sender, RoutedEventArgs e) {
             PagesList.Visibility = PagesList.Visibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
             NewPageButton.Visibility = PagesList.Visibility;
