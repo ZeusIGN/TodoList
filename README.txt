@@ -3,7 +3,7 @@
 3. Nospiežot uz "New Group" var pārmainīt grupas nosaukumu
 4. Nospiežot uz "New Item" var pārmainīt elementa nosaukumu
 5. Nospiežot uz "Short Description" var pārmainīt to nosaukumu
-6. Uztaisot vēl vienu grupu, un turot grupu ar kreiso klikšķi var kustēt to organizāciju
+6. Uztaisot vēl vienu grupu, un turot grupu ar kreiso klikšķi var pārmainīt to organizāciju
 7. Uztaisot vēl vienu elementu, un turot elementu ar kreiso klikšķi var kustēt to par lapu
 8. Nospiežot divas reizes uz elementu var to attaisīt un pārmainīt garo tekstu
 9. Nospiežot uz pelēko daļu elementam var pārmainīt progresu (pelēks -> zils -> zaļš)
